@@ -1,1 +1,266 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --surface-glass: rgba(255, 255, 255, 0.7);
+    --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+    --card-shadow-hover: 0 20px 40px -15px rgba(0, 0, 0, 0.2);
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background: #f8fafc;
+    color: var(--text-main);
+    background-image:
+        radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.1) 0, transparent 50%),
+        radial-gradient(at 50% 0%, rgba(168, 85, 247, 0.05) 0, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.1) 0, transparent 50%);
+    min-height: 100vh;
+}
+
+.premium-card {
+    border: none;
+    border-radius: 20px;
+    background: var(--surface-glass);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    height: 100%;
+}
+
+.premium-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.card-image-container {
+    height: 300px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.premium-card:hover .card-image-container img {
+    transform: scale(1.1);
+}
+
+.like-button {
+    border-radius: 12px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.like-button.liked {
+    background: #fee2e2;
+    color: #ef4444;
+    border-color: #fee2e2;
+}
+
+.like-button.not-liked {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.like-button:hover {
+    transform: scale(1.05);
+}
+
+.section-title {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 2rem;
+}
+
+.author-badge {
+    background: #f1f5f9;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #475569;
+}
+
+.comments-list {
+    max-height: 180px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.comments-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.comments-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.comments-list::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+
+.comment-input {
+    border-radius: 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    padding: 8px 16px !important;
+    font-size: 0.9rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.comment-input:focus {
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
+    border-color: #6366f1 !important;
+}
+
+.post-comment-btn {
+    border-radius: 10px !important;
+    padding: 6px 16px !important;
+    font-weight: 500 !important;
+}
+
+/* Header Styles */
+.premium-navbar {
+    background: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand-premium {
+    font-weight: 800;
+    font-size: 1.5rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.nav-link-premium {
+    color: var(--text-main) !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link-premium::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 8px;
+    background: var(--primary-gradient);
+    transition: width 0.3s ease;
+}
+
+.nav-link-premium:hover::after {
+    width: calc(100% - 16px);
+}
+
+.btn-nav-primary {
+    background: var(--primary-gradient);
+    color: white !important;
+    border: none;
+    padding: 8px 20px !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.btn-nav-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-nav-outline {
+    border: 2px solid #e2e8f0 !important;
+    color: var(--text-main) !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+    padding: 6px 18px !important;
+    transition: all 0.3s ease !important;
+}
+
+.btn-nav-outline:hover {
+    border-color: #6366f1 !important;
+    color: #6366f1 !important;
+}
+
+/* Create Post Styles */
+.preview-container {
+    width: 100%;
+    margin-top: 1rem;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border: 2px dashed #e2e8f0;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+}
+
+.preview-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ef4444;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.remove-image-btn:hover {
+    transform: scale(1.1);
+    background: #fff;
+}
+
+.post-description {
+    max-height: 120px;
+    overflow-y: auto;
+    padding-right: 5px;
+    margin-bottom: 1rem;
+}
+
+.post-description::-webkit-scrollbar {
+    width: 4px;
+}
+
+.post-description::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+}

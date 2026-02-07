@@ -66,46 +66,64 @@ export default function CommentSection({ postId, baseUrl }: CommentSectionProps)
     };
 
     return (
-        <div className="mt-3">
-            <hr />
-            <h6>Comments</h6>
+        <div className="mt-4">
+            <h6 className="fw-bold mb-3 d-flex align-items-center gap-2">
+                Comments
+                <span className="badge bg-light text-dark rounded-pill fw-normal">
+                    {comments.length}
+                </span>
+            </h6>
 
             {user ? (
-                <Form onSubmit={handleCommentSubmit} className="mb-3">
+                <Form onSubmit={handleCommentSubmit} className="mb-4">
                     <Form.Group className="d-flex gap-2">
                         <Form.Control
                             type="text"
-                            placeholder="Add a comment..."
+                            placeholder="Share your thoughts..."
                             value={text}
                             onChange={(e) => setText(e.target.value)}
-                            size="sm"
+                            className="comment-input"
                         />
-                        <Button variant="primary" size="sm" type="submit" disabled={loading}>
-                            {loading ? "..." : "Post"}
+                        <Button variant="primary" type="submit" disabled={loading} className="post-comment-btn d-flex align-items-center">
+                            {loading ? <Spinner animation="border" size="sm" /> : "Post"}
                         </Button>
                     </Form.Group>
                 </Form>
             ) : (
-                <p className="small text-muted">Login to add a comment.</p>
+                <div className="alert alert-light border-0 py-2 small mb-4">
+                    Login to add a comment.
+                </div>
             )}
 
             {fetching ? (
-                <Spinner animation="border" size="sm" />
+                <div className="text-center py-2">
+                    <Spinner animation="border" size="sm" variant="primary" />
+                </div>
             ) : (
-                <ListGroup variant="flush">
+                <ListGroup variant="flush" className="comments-list">
                     {comments.length > 0 ? (
                         comments.map((comment, idx) => (
-                            <ListGroup.Item key={idx} className="px-0 py-1 border-0">
-                                <div className="small">
-                                    <strong>{comment.user?.firstName} {comment.user?.lastName}</strong>: {comment.text}
+                            <ListGroup.Item key={idx} className="px-0 py-3 border-bottom border-light" >
+                                <div className="d-flex gap-2">
+                                    <div className="flex-grow-1">
+                                        <div className="small fw-bold mb-1">
+                                            {comment.user?.firstName} {comment.user?.lastName}
+                                        </div>
+                                        <div className="small text-secondary">
+                                            {comment.text}
+                                        </div>
+                                    </div>
                                 </div>
                             </ListGroup.Item>
                         ))
                     ) : (
-                        <div className="small text-muted">No comments yet.</div>
+                        <div className="small text-muted text-center py-3">
+                            No comments yet. Start the conversation!
+                        </div>
                     )}
                 </ListGroup>
             )}
         </div>
     );
 }
+

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 export default function Home() {
     const [posts, setPosts] = useState<any[]>([]);
-    const [imageshow, setimageshow] = useState("");
+    // const [imageshow, setimageshow] = useState("");
     const [loading, setLoading] = useState(true);
     const [user, setUser] = useState<any>(null);
     let baseUrl = "https://3w-business-private-limited.onrender.com";
@@ -22,7 +22,7 @@ export default function Home() {
         axios.post(`${baseUrl}/api/backend/post/view`)
             .then((res) => {
                 console.log("likes", res.data.data);
-                setimageshow(res.data.imagePath);
+                // setimageshow(res.data.imagePath);
                 setPosts(res.data.data);
                 setLoading(false);
             })
@@ -65,10 +65,14 @@ export default function Home() {
         <>
             <Header />
             <Container className="my-5">
-                <h2 className="text-center mb-4">Latest Posts</h2>
+                <div className="text-center mb-5">
+                    <h1 className="section-title display-4">Latest Insights</h1>
+                    <p className="text-muted lead">Stay updated with the latest stories from our community.</p>
+                </div>
+
                 {loading ? (
-                    <div className="text-center">
-                        <Spinner animation="border" variant="dark" />
+                    <div className="text-center py-5">
+                        <Spinner animation="border" variant="primary" size="lg" />
                     </div>
                 ) : (
                     <Row>
@@ -76,46 +80,65 @@ export default function Home() {
                             posts.map((item, index) => {
                                 const isLiked = user && item.likes?.some((like: any) => like.userId === user._id);
                                 return (
-                                    <Col md={4} key={index} className="mb-4">
-                                        <Card className="h-100 shadow-sm">
+                                    <Col lg={12} md={12} key={index} className="mb-4">
+                                        <Card className="premium-card" >
                                             {item.image && (
-                                                <Card.Img
-                                                    variant="top"
-                                                    src={`${baseUrl}/${imageshow}${item.image}`}
-                                                    style={{ height: "200px", objectFit: "cover" }}
-                                                />
+                                                <div className="card-image-container">
+                                                    <Card.Img
+                                                        variant="top"
+                                                        src={`${item.image}`}
+                                                    />
+                                                </div>
                                             )}
-                                            <Card.Body>
-                                                <Card.Text>{item.post}</Card.Text>
+                                            <Card.Body className="p-4 d-flex flex-column">
+                                                <div className="post-description flex-grow-1">
+                                                    <Card.Text className="fs-5">
+                                                        {item.post}
+                                                    </Card.Text>
+                                                </div>
 
-                                                <div className="d-flex align-items-center gap-2 mb-2">
+                                                <div className="d-flex align-items-center justify-content-between gap-2 mb-4">
                                                     <Button
-                                                        variant={isLiked ? "danger" : "outline-danger"}
-                                                        size="sm"
-                                                        className="d-flex align-items-center gap-1"
+                                                        variant="link"
+                                                        className={`like-button d-flex align-items-center gap-2 text-decoration-none ${isLiked ? 'liked' : 'not-liked'}`}
                                                         onClick={() => handleLike(item._id)}
                                                     >
-                                                        {isLiked ? <FaHeart /> : <FaRegHeart />}
-                                                        {isLiked ? "Liked" : "Like"}
-                                                        <span className="ms-1">({item.likes?.length || 0})</span>
+                                                        {isLiked ? <FaHeart size={18} /> : <FaRegHeart size={18} />}
+                                                        <span>{isLiked ? "Liked" : "Like"}</span>
+                                                        <span className="fw-bold">{item.likes?.length || 0}</span>
                                                     </Button>
                                                 </div>
 
+                                                <hr className="opacity-10" />
+
                                                 <CommentSection postId={item._id} baseUrl={baseUrl} />
                                             </Card.Body>
-                                            <Card.Footer className="text-muted text-center">
-                                                <small>
-                                                    By: {item.user?.firstName} {item.user?.lastName} <br />
-                                                    {new Date(item.createdAt || Date.now()).toLocaleDateString()}
-                                                </small>
+                                            <Card.Footer className="bg-transparent border-0 p-4 pt-0">
+                                                <div className="d-flex align-items-center gap-3">
+                                                    <div className="author-badge">
+                                                        <span className="fw-medium">
+                                                            {item.user?.firstName} {item.user?.lastName}
+                                                        </span>
+                                                    </div>
+                                                    <small className="text-muted ms-auto">
+                                                        {new Date(item.createdAt || Date.now()).toLocaleDateString('en-US', {
+                                                            month: 'short',
+                                                            day: 'numeric',
+                                                            year: 'numeric'
+                                                        })}
+                                                    </small>
+                                                </div>
                                             </Card.Footer>
                                         </Card>
                                     </Col>
                                 );
                             })
                         ) : (
-                            <Col className="text-center">
-                                <h4>No posts found.</h4>
+                            <Col className="text-center py-5">
+                                <div className="opacity-50">
+                                    <h3>No posts yet.</h3>
+                                    <p>Be the first to share something amazing!</p>
+                                </div>
                             </Col>
                         )}
                     </Row>
@@ -124,4 +147,5 @@ export default function Home() {
         </>
     );
 }
+
 
