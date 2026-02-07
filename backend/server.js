@@ -8,7 +8,7 @@ server.use(cors());
 
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-server.use('/uploads/images', express.static('uploads/images'));
+// server.use('/uploads/images', express.static('uploads/images'));
 
 
 server.get("/", (request, response) => {

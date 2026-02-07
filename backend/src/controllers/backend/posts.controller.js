@@ -3,15 +3,25 @@ const userPost = require("../../models/posts");
 exports.create = async (req, res) => {
   try {
     const data = new userPost({
-      post: req.body.post,
-      image: req.file ? req.file.filename : null,
-      user: req.body.user, // logged in user id
+      post: req.body.post || "",
+      image: req.file ? req.file.path : null,
+      user: req.body.user,
     });
 
     const saved = await data.save();
-    res.status(201).json(saved);
+
+    res.status(201).json({
+      status: true,
+      message: "Post created successfully",
+      data: saved,
+    });
   } catch (err) {
-    res.status(500).json({ error: "Post create failed" });
+    console.error("Create post error:", err);
+    res.status(500).json({
+      status: false,
+      message: "Post create failed",
+      error: err.message,
+    });
   }
 };
 
@@ -24,11 +34,15 @@ exports.view = async (req, res) => {
 
     res.status(200).json({
       status: true,
-      imagePath: "uploads/images/",
       data: posts,
     });
   } catch (err) {
-    res.status(500).json({ error: "Failed to fetch posts" });
+    console.error("View posts error:", err);
+    res.status(500).json({
+      status: false,
+      message: "Failed to fetch posts",
+      error: err.message,
+    });
   }
 };
 
@@ -39,7 +53,10 @@ exports.likePost = async (req, res) => {
     const post = await userPost.findById(postId);
 
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      return res.status(404).json({
+        status: false,
+        message: "Post not found",
+      });
     }
 
     const alreadyLiked = post.likes.find(
@@ -57,11 +74,17 @@ exports.likePost = async (req, res) => {
     await post.save();
 
     res.status(200).json({
-      message: "Like updated",
+      status: true,
+      message: "Like updated successfully",
       likesCount: post.likes.length,
       likes: post.likes,
     });
   } catch (error) {
-    res.status(500).json({ message: "Like failed", error: error.message });
+    console.error("Like post error:", error);
+    res.status(500).json({
+      status: false,
+      message: "Like failed",
+      error: error.message,
+    });
   }
 };
