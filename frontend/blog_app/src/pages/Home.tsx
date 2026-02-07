@@ -1,17 +1,22 @@
-import Header from "../Common/Header";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Container, Row, Col, Card, Spinner } from "react-bootstrap";
+import Header from "../Common/Header";
+import { Container, Row, Col, Card, Spinner, Button } from "react-bootstrap";
+import CommentSection from "../Common/CommentSection";
+import { FaRegHeart } from "react-icons/fa";
 
 export default function Home() {
     const [posts, setPosts] = useState<any[]>([]);
+    const [imageshow, setimageshow] = useState("");
     const [loading, setLoading] = useState(true);
+    let baseUrl = "https://3w-business-private-limited.onrender.com";
 
     useEffect(() => {
-        axios.post("https://3w-business-private-limited.onrender.com/api/backend/post/view")
+        axios.post(`${baseUrl}/api/backend/post/view`)
             .then((res) => {
-                console.log(res.data);
-                setPosts(res.data);
+                console.log("likes", res.data.data);
+                setimageshow(res.data.imagePath);
+                setPosts(res.data.data);
                 setLoading(false);
             })
             .catch((err) => {
@@ -38,14 +43,22 @@ export default function Home() {
                                         {item.image && (
                                             <Card.Img
                                                 variant="top"
-                                                src={`https://3w-business-private-limited.onrender.com/uploads/${item.image}`}
+                                                src={`${baseUrl}/${imageshow}${item.image}`}
                                                 style={{ height: "200px", objectFit: "cover" }}
                                             />
                                         )}
                                         <Card.Body>
                                             <Card.Text>{item.post}</Card.Text>
+
+                                            <div className="d-flex align-items-center gap-2 mb-2">
+                                                <Button variant="outline-danger" size="sm" className="d-flex align-items-center gap-1">
+                                                    <FaRegHeart /> Like
+                                                </Button>
+                                            </div>
+
+                                            <CommentSection postId={item._id} baseUrl={baseUrl} />
                                         </Card.Body>
-                                        <Card.Footer className="text-muted">
+                                        <Card.Footer className="text-muted text-center">
                                             <small>
                                                 By: {item.user?.firstName} {item.user?.lastName} <br />
                                                 {new Date(item.createdAt || Date.now()).toLocaleDateString()}

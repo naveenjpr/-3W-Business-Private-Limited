@@ -18,14 +18,13 @@ const storage = multer.diskStorage({
 });
 const uploadImage = multer({ storage: storage }).single("image");
 
-
 module.exports = (app) => {
   route.post("/add", uploadImage, PostController.create);
 
   route.post("/view", PostController.view);
+  route.post("/like", PostController.likePost);
 
   app.use("/api/backend/post", route);
 };
 //http://localhost:5000/api/backend/post/add
 //http://localhost:5000/api/backend/post/view
-

@@ -31,3 +31,37 @@ exports.view = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch posts" });
   }
 };
+
+exports.likePost = async (req, res) => {
+  try {
+    const { postId, userId, username } = req.body;
+
+    const post = await userPost.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    const alreadyLiked = post.likes.find(
+      (like) => like.userId.toString() === userId,
+    );
+
+    if (alreadyLiked) {
+      post.likes = post.likes.filter(
+        (like) => like.userId.toString() !== userId,
+      );
+    } else {
+      post.likes.push({ userId, username });
+    }
+
+    await post.save();
+
+    res.status(200).json({
+      message: "Like updated",
+      likesCount: post.likes.length,
+      likes: post.likes,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Like failed", error: error.message });
+  }
+};
