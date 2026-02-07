@@ -55,7 +55,7 @@ export default function CreatePost() {
                 "Content-Type": "multipart/form-data"
             }
         })
-            .then((res) => {
+            .then(() => {
                 toast.success("Post created successfully!");
                 navigate("/");
             })

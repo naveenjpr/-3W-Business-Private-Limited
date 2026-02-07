@@ -29,14 +29,14 @@ export default function Header() {
 
                         {!user ? (
                             <div className="d-flex align-items-center gap-3 ms-lg-3">
-                                <Nav.Link as={Link} to="/login" className="nav-link-premium">Login</Nav.Link>
-                                <Button as={Link} to="/register" className="btn-nav-primary">
+                                <Nav.Link as={Link as any} to="/login" className="nav-link-premium">Login</Nav.Link>
+                                <Button as={Link as any} to="/register" className="btn-nav-primary">
                                     Sign Up
                                 </Button>
                             </div>
                         ) : (
                             <div className="d-flex align-items-center gap-3 ms-lg-3">
-                                <Nav.Link as={Link} to="/add-post" className="nav-link-premium">Create Post</Nav.Link>
+                                <Nav.Link as={Link as any} to="/add-post" className="nav-link-premium">Create Post</Nav.Link>
                                 <div className="d-flex align-items-center gap-2 px-3 py-1 bg-light rounded-pill">
                                     <small className="fw-bold">{user.firstName}</small>
                                     <Button

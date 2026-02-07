@@ -72,7 +72,7 @@ export default function Home() {
 
                 {loading ? (
                     <div className="text-center py-5">
-                        <Spinner animation="border" variant="primary" size="lg" />
+                        <Spinner animation="border" variant="primary" />
                     </div>
                 ) : (
                     <Row>

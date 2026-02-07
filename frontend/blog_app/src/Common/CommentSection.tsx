@@ -51,7 +51,7 @@ export default function CommentSection({ postId, baseUrl }: CommentSectionProps)
         };
 
         axios.post(`${baseUrl}/api/backend/comment/postComment`, payload)
-            .then((res) => {
+            .then(() => {
                 toast.success("Comment posted!");
                 setText("");
                 fetchComments(); // Refresh comments list
